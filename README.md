@@ -24,18 +24,28 @@
 * [FAQs](https://github.com/karanvivekbhargava/obamanet#faqs)
 	
 
+### Dependencies
+
+- [miniconda](https://docs.conda.io/en/latest/miniconda.html)
+    - python 3.7 bash installer
+- ffmpeg (with x264 enabled)
+    - `sudo apt-get install ffmpeg`
+    - `brew install -i ffmpeg`
+        - `./configure --enable-gpl --enable-libx264`
+
 ### Requirements
 
-You may install the requirements by running the following command
+You may install the requirements by running the following commands
 ```
+conda init <bash|zsh|...>
+<close and re-open terminal or vscode>
+conda deactivate
+conda env remove -n obamanet
 conda create -n obamanet
 conda activate obamanet
 conda install python=3.7 pip
-conda install -c conda-forge ffmpeg
 conda install numpy scikit-learn scipy tqdm cmake
-conda info
-# use <env> output
-run: <env>/bin/pip install -r requirements.txt
+conda run pip install -r requirements.txt
 ```
 
 The project is built for python 3.5 and above. The other libraries are listed below
@@ -46,7 +56,6 @@ The project is built for python 3.5 and above. The other libraries are listed be
 For a complete list refer to `requirements.txt` file.
 
 I used the tools below to extract and manipulate the data:
-* ffmpeg (`sudo apt-get install ffmpeg`)
 * [YouTube-dl](https://github.com/rg3/youtube-dl#video-selection)
 
 ### Data Extraction
@@ -104,6 +113,8 @@ ffmpeg -r 30 -f image2 -s 256x256 -i %d-targets.png -vcodec libx264 -crf 25 ../t
 
 Link to the pretrained model and a subset of the data is here - [Link](https://drive.google.com/drive/folders/1QDRCWmqr87E3LWmYztqE7cpBZ3fALo-x?usp=sharing)
 
+[landmarks](http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2) file unzipped in the data folder
+
 Download and extract the checkpoints and the data folders into the repository. The file structure should look as shown below.
 
 ```
@@ -112,11 +123,12 @@ obamanet
 └─ data
 |   | audios
 |   | a2key_data
+|   | shape_predictor_68_face_landmarks.dat
 |   ...
 |
 └─ checkpoints
 |   | output
-|   | model.h5
+|   | my_model.h5
 |   ...
 └─ train.py
 └─ run.py
